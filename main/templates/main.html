@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generar Gráfico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.7" />
+  </head>
+  <body
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 50px;
+    "
+  >
+    <form
+      method="POST"
+      onsubmit="return validateForm()"
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      "
+    >
+      {% csrf_token %}
+      <div>
+        <label>Binario:</label>
+        <input type="text" id="entrada" name="entrada" />
+        <select id="metodo" name="metodo">
+          <option value="nrz_i">NRZ-I</option>
+          <option value="rz">RZ</option>
+          <option value="manchester">Manchester</option>
+          <option value="manchester_dif">Manchester Diferencial</option>
+          <option value="ami">AMI</option>
+          <option value="pseudoternario">Pseudoternario</option>
+          <option value="hdb3">HDB3</option>
+          <option value="b8zs">B8ZS</option>
+          <option value="mlt_3">MLT-3</option>
+        </select>
+      </div>
+      <button
+        type="submit"
+        style="margin-top: 20px; width: 100px; height: 25px"
+      >
+        Graficar
+      </button>
+    </form>
+
+    {% if file_name %}
+    <img src="{{ file_name }}" alt="Image" />
+    {% endif %}
+
+    <script>
+      function validateForm() {
+        var entrada = document.getElementById("entrada");
+        var valor = entrada.value;
+        var pattern = /^[01]+$/;
+
+        if (!pattern.test(valor)) {
+          alert("La secuencia ingresada no es binaria");
+          entrada.value = "";
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
